@@ -67,6 +67,10 @@
     <td>Database Management System-I</td>
   </tr>
   <tr>
+    <td>SE-406</td>
+    <td>Software Requirements Specification & Analysis</td>
+  </tr>
+  <tr>
     <td>GE-402</td>
     <td>Business Psychology</td>
   </tr>
