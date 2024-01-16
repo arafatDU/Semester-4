@@ -81,14 +81,9 @@
   </tr>
 
 
-  <br>
-  <br>
-  <p>
-  <h6>My class routine...</h6>
-  </p>
-  <br>
-  <br>
-
+ 
+  
+### Here is my class routine: 
   <table>
   <tr>
     <th>Day</th>
