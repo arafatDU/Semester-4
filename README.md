@@ -49,6 +49,7 @@
 
 <p>
 <h6>My 4th Semester has 6 courses.</h6>
+</p>
 <table>
   <tr>
     <th>Course Code</th>
@@ -82,7 +83,9 @@
 
   <br>
   <br>
-
+  <p>
+  <h6>My class routine...</h6>
+  </p>
   <br>
   <br>
 
@@ -96,37 +99,37 @@
   </tr>
   <tr>
     <td>Sunday</td>
-    <td>CSE-401</td>
-    <td>CSE-401</td>
+    <td>SE-406_SRS(T) KMS</td>
+    <td>CSE-404_DBMS(T) MS</td>
     <td>Break time</td>
-    <td>CSE-401</td>
+    <td>CSE-411_IS(L) SAK*</td>
   </tr>
   <tr>
     <td>Monday</td>
-    <td>CSE-401</td>
-    <td>CSE-401</td>
+    <td>CSE-411_IS(T) SAK</td>
+    <td>BUS-405_BS IA</td>
     <td>Break time</td>
-    <td>CSE-401</td>
+    <td>CSE__CONTEST</td>
   </tr>
   <tr>
     <td>Tuesday</td>
-    <td>CSE-401</td>
-    <td>CSE-401</td>
+    <td>CSE-401_OS(L) NN</td>
+    <td>GE-403_BP(T) SB</td>
     <td>Break time</td>
-    <td>CSE-401</td>
+    <td>SE-406_SRS(L) KMS</td>
   </tr>
   <tr>
     <td>Wednesday</td>
-    <td>CSE-401</td>
-    <td>CSE-401</td>
+    <td>CSE-401_OS(L) NN</td>
+    <td>CSE-401_OS(T) NN</td>
     <td>Break time</td>
-    <td>CSE-401</td>
+    <td>CSE-404_DBMS(L) MS*</td>
   </tr>
   <tr>
     <td>Thursday</td>
-    <td>CSE-401</td>
-    <td>CSE-401</td>
+    <td>EMPTY</td>
+    <td>BUS-405_BS IA</td>
     <td>Break time</td>
-    <td>CSE-401</td>
+    <td>GE-403_BP(L) SB</td>
   </tr>
   
