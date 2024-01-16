@@ -78,3 +78,55 @@
     <td>BUS-405</td>
     <td>Business Studies for Engineers</td>
   </tr>
+
+
+  <br>
+  <br>
+
+  <br>
+  <br>
+
+  <table>
+  <tr>
+    <th>Day</th>
+    <th>🕙9:00 - 10:50</th>
+    <th>🕙11:00 - 12:50</th>
+    <th>🕙1:00 - 2:00</th>
+    <th>🕙2:00 - 3:50</th>
+  </tr>
+  <tr>
+    <td>Sunday</td>
+    <td>CSE-401</td>
+    <td>CSE-401</td>
+    <td>Break time</td>
+    <td>CSE-401</td>
+  </tr>
+  <tr>
+    <td>Monday</td>
+    <td>CSE-401</td>
+    <td>CSE-401</td>
+    <td>Break time</td>
+    <td>CSE-401</td>
+  </tr>
+  <tr>
+    <td>Tuesday</td>
+    <td>CSE-401</td>
+    <td>CSE-401</td>
+    <td>Break time</td>
+    <td>CSE-401</td>
+  </tr>
+  <tr>
+    <td>Wednesday</td>
+    <td>CSE-401</td>
+    <td>CSE-401</td>
+    <td>Break time</td>
+    <td>CSE-401</td>
+  </tr>
+  <tr>
+    <td>Thursday</td>
+    <td>CSE-401</td>
+    <td>CSE-401</td>
+    <td>Break time</td>
+    <td>CSE-401</td>
+  </tr>
+  
