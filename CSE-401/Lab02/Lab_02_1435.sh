@@ -14,7 +14,7 @@ fi
 
 echo "filename     size     lineOfCode"
 echo "#################################"
-for file in `find $path -type f -name "*.c" -or -name "*.cpp"` ; do
+for file in $(find $path -type f -name "*.c" -or -name "*.cpp") ; do
 	filename=$(basename -- "$file")
 	size=$(stat --format=%s "$file")
 	lineOfCode=$(wc -l < "$file")
