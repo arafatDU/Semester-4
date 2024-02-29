@@ -14,11 +14,15 @@ int main()
     float  avgTT=0, avgWT=0;
     vector< pair <int,int> > bTpair;
     vector< pair <int,int> > cTpair;
+    
 
     for(int i=0; i<N; i++){
         bTpair.push_back( make_pair((arivalT[i]+ burstT[i]), i) );
     }
     sort(bTpair.begin(), bTpair.end());
+    cout<<"-------------TEST---------------"<<endl;
+    for(int i=0; i<N; i++) cout<<"burstT: "<<bTpair[i].first<< "   index: "<<bTpair[i].second<<endl;
+    cout<<"-------------------------------\n\n"<<endl;
 
 
     for(int i=0; i<N; i++){
@@ -36,18 +40,21 @@ int main()
     }
     sort(cTpair.begin(), cTpair.end());
 
+    // printing Gantt chart
     for(int i=0; i<N; i++) printf("|--- P%d ---|", cTpair[i].second+1);
     printf("\n0");
     for(int i=0; i<N; i++) printf("          %d", cTpair[i].first);
     printf("\n");
 
 
+    // printing table
     printf("\nProcess   A.T    B.T    Priority  C.T   T.T    W.T\n");
     for(int i=0; i<N; i++){
         printf("   P%d\t   %d\t   %d\t    %d\t   %d\t  %d\t %d\t\n", process[i], arivalT[i], burstT[i], priority[i], completeT[i] ,turnaroundT[i], waitingT[i]);
     }
 
 
+    // calculating average
     for(int i=0; i<N; i++){
         avgTT += turnaroundT[i];
         avgWT += waitingT[i];

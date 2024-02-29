@@ -8,6 +8,23 @@ void sortPriorityPair(vector<pair<int, int>> &pPair, int *burstT){
     for(int i=0; i<N; i++){
         for(int j=i; j<N; j++){
             pair<int, int> temp;
+            if(pPair[j].first > pPair[i].first){
+                temp.first = pPair[j].first;
+                temp.second = pPair[j].second;
+                pPair[j].first = pPair[i].first;
+                pPair[j].second = pPair[i].second;
+                pPair[i].first = temp.first;
+                pPair[i].second = temp.second;
+            }else if(pPair[j].first == pPair[i].first){
+                if(burstT[pPair[j].second] < burstT[pPair[i].second]){
+                    temp.first = pPair[j].first;
+                    temp.second = pPair[j].second;
+                    pPair[j].first = pPair[i].first;
+                    pPair[j].second = pPair[i].second;
+                    pPair[i].first = temp.first;
+                    pPair[i].second = temp.second;
+                }
+            }
             
         }
     }
@@ -31,9 +48,13 @@ int main()
     //sort(pPair.begin(), pPair.end());
     sortPriorityPair(pPair, burstT);
 
+    cout<<"-------------TEST---------------"<<endl;
+    for(int i=0; i<N; i++) cout<<"priority: "<<pPair[i].first<< "   index: "<<pPair[i].second<<endl;
+    cout<<"-------------------------------\n\n"<<endl;
+
 
     for(int i=0; i<N; i++){
-        sum += pPair[i].first;
+        sum += arivalT[pPair[i].second] + burstT[pPair[i].second];
         completeT[pPair[i].second] = sum;
         turnaroundT[pPair[i].second] = completeT[pPair[i].second] - arivalT[pPair[i].second];
         waitingT[pPair[i].second] = turnaroundT[pPair[i].second] - burstT[pPair[i].second];
@@ -47,18 +68,21 @@ int main()
     }
     sort(cTpair.begin(), cTpair.end());
 
+    // printing the Gnatt chart
     for(int i=0; i<N; i++) printf("|--- P%d ---|", cTpair[i].second+1);
     printf("\n0");
     for(int i=0; i<N; i++) printf("          %d", cTpair[i].first);
     printf("\n");
 
 
-    printf("\nProcess   A.T    B.T    Priority  C.T   T.T    W.T\n");
+    // printing the table
+    printf("\nProcess   A.T    B.T    Priority  C.T    T.T    W.T\n");
     for(int i=0; i<N; i++){
         printf("   P%d\t   %d\t   %d\t    %d\t   %d\t  %d\t %d\t\n", process[i], arivalT[i], burstT[i], priority[i], completeT[i] ,turnaroundT[i], waitingT[i]);
     }
 
 
+    // calculating average
     for(int i=0; i<N; i++){
         avgTT += turnaroundT[i];
         avgWT += waitingT[i];
