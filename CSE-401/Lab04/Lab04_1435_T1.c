@@ -22,7 +22,7 @@ int main() {
         }
         printf("Parent process (PID: %d) - Sum of even numbers up to %d: %d\n", getpid(), n, sum);
     } else {
-        fprintf(stderr, "Fork failed\n");
+        printf("Fork failed\n");
         return 1;
     }
 
