@@ -1,13 +1,13 @@
 #include<stdio.h>
 
-#define N 5
+#define N 6
 
 int main()
 {
-    int process[N] = {1, 2, 3, 4, 5};
-    int arivalT[N] = {0, 0, 0, 0, 0};
-    int burstT[N] = {2, 1, 8, 4, 5};
-    int priority[N] = {2, 1, 4, 2, 3};
+    int process[N] = {1, 2, 3, 4, 5, 6};
+    int arivalT[N] = {0, 25, 30, 60, 100, 105};
+    int burstT[N] = {20, 25, 25, 15, 10, 10};
+    int priority[N] = {40, 30, 30, 35, 5, 10};
 
     int completeT[N], turnaroundT[N], waitingT[N], sum=0, avgTT=0, avgWT=0;
 

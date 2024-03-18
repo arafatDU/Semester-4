@@ -1,95 +1,138 @@
-#include<bits/stdc++.h>
+#include <iostream>
+#include <algorithm> 
+#include <iomanip>
+#include <string.h> 
 using namespace std;
 
 #define N 6
 
+struct process {
+    int pid;
+    int arrival_time;
+    int burst_time;
+    int start_time;
+    int completion_time;
+    int turnaround_time;
+    int waiting_time;
+    int response_time;
+};
 
-void sortArrivalPair(vector<pair<int, int>> &aTpair, int *burstT){
-    for(int i=0; i<N; i++){
-        for(int j=i; j<N; j++){
-            pair<int, int> temp;
-            if(aTpair[j].first < aTpair[i].first){
-                temp.first = aTpair[j].first;
-                temp.second = aTpair[j].second;
-                aTpair[j].first = aTpair[i].first;
-                aTpair[j].second = aTpair[i].second;
-                aTpair[i].first = temp.first;
-                aTpair[i].second = temp.second;
-            }else if(aTpair[j].first == aTpair[i].first){
-                if(burstT[aTpair[j].second] < burstT[aTpair[i].second]){
-                    temp.first = aTpair[j].first;
-                    temp.second = aTpair[j].second;
-                    aTpair[j].first = aTpair[i].first;
-                    aTpair[j].second = aTpair[i].second;
-                    aTpair[i].first = temp.first;
-                    aTpair[i].second = temp.second;
-                }
-            }
-            
-        }
-    }
-}
-
-
-
-int main()
-{
-    int process[N] = {1, 2, 3, 4, 5, 6};
+int main() {
+    int pid[N] = {1, 2, 3, 4, 5, 6};
     int arivalT[N] = {0, 25, 30, 60, 100, 105};
     int burstT[N] = {20, 25, 25, 15, 10, 10};
     int priority[N] = {40, 30, 30, 35, 5, 10};
 
-    int completeT[N], turnaroundT[N], waitingT[N], sum=0;
-    float  avgTT=0, avgWT=0;
-    vector< pair <int,int> > aTpair;
-    vector< pair <int,int> > cTpair;
+    struct process p[N];
+    float avg_turnaround_time;
+    float avg_waiting_time;
+    float avg_response_time;
+    float cpu_utilisation;
+    int total_turnaround_time = 0;
+    int total_waiting_time = 0;
+    int total_response_time = 0;
+    int total_idle_time = 0;
+    float throughput;
+    int is_completed[100];
+    memset(is_completed,0,sizeof(is_completed));
+
+    cout << setprecision(2) << fixed;
+
     
 
-    for(int i=0; i<N; i++){
-        aTpair.push_back( make_pair((arivalT[i]), i) );
-    }
-    sortArrivalPair(aTpair, burstT);
-    cout<<"-------------TEST---------------"<<endl;
-    for(int i=0; i<N; i++) cout<<"arrivalT: "<<aTpair[i].first<< "   index: "<<aTpair[i].second<<endl;
-    cout<<"-------------------------------\n\n"<<endl;
-
-
-    for(int i=0; i<N; i++){
-        sum += burstT[aTpair[i].second];
-        completeT[aTpair[i].second] = sum;
-        turnaroundT[aTpair[i].second] = completeT[aTpair[i].second] - arivalT[aTpair[i].second];
-        waitingT[aTpair[i].second] = turnaroundT[aTpair[i].second] - burstT[aTpair[i].second];
+    for(int i = 0; i < N; i++) {
+        p[i].pid = pid[i];
+        p[i].arrival_time = arivalT[i];
+        p[i].burst_time = burstT[i];
     }
 
+    int current_time = 0;
+    int completed = 0;
+    int prev = 0;
 
+    while(completed != N) {
+        int idx = -1;
+        int mn = 10000000;
+        for(int i = 0; i < N; i++) {
+            if(p[i].arrival_time <= current_time && is_completed[i] == 0) {
+                if(p[i].burst_time < mn) {
+                    mn = p[i].burst_time;
+                    idx = i;
+                }
+                if(p[i].burst_time == mn) {
+                    if(p[i].arrival_time < p[idx].arrival_time) {
+                        mn = p[i].burst_time;
+                        idx = i;
+                    }
+                }
+            }
+        }
+        if(idx != -1) {
+            p[idx].start_time = current_time;
+            p[idx].completion_time = p[idx].start_time + p[idx].burst_time;
+            p[idx].turnaround_time = p[idx].completion_time - p[idx].arrival_time;
+            p[idx].waiting_time = p[idx].turnaround_time - p[idx].burst_time;
+            p[idx].response_time = p[idx].start_time - p[idx].arrival_time;
+            
+            total_turnaround_time += p[idx].turnaround_time;
+            total_waiting_time += p[idx].waiting_time;
+            total_response_time += p[idx].response_time;
+            total_idle_time += p[idx].start_time - prev;
 
-
-    for(int i=0; i<N; i++){
-        cTpair.push_back( make_pair(completeT[i], i) );
+            is_completed[idx] = 1;
+            completed++;
+            current_time = p[idx].completion_time;
+            prev = current_time;
+        }
+        else {
+            current_time++;
+        }
+        
     }
-    sort(cTpair.begin(), cTpair.end());
 
-    // printing Gantt chart
-    for(int i=0; i<N; i++) printf("|--- P%d ---|", cTpair[i].second+1);
-    printf("\n0");
-    for(int i=0; i<N; i++) printf("          %d", cTpair[i].first);
-    printf("\n");
-
-
-    // printing table
-    printf("\nProcess   A.T    B.T    Priority  C.T   T.T    W.T\n");
-    for(int i=0; i<N; i++){
-        printf("   P%d\t   %d\t   %d\t    %d\t   %d\t  %d\t %d\t\n", process[i], arivalT[i], burstT[i], priority[i], completeT[i] ,turnaroundT[i], waitingT[i]);
+    int min_arrival_time = 10000000;
+    int max_completion_time = -1;
+    for(int i = 0; i < N; i++) {
+        min_arrival_time = min(min_arrival_time,p[i].arrival_time);
+        max_completion_time = max(max_completion_time,p[i].completion_time);
     }
 
+    avg_turnaround_time = (float) total_turnaround_time / N;
+    avg_waiting_time = (float) total_waiting_time / N;
+    avg_response_time = (float) total_response_time / N;
+    cpu_utilisation = ((max_completion_time - total_idle_time) / (float) max_completion_time )*100;
+    throughput = float(N) / (max_completion_time - min_arrival_time);
 
-    // calculating average
-    for(int i=0; i<N; i++){
-        avgTT += turnaroundT[i];
-        avgWT += waitingT[i];
+    cout<<endl<<endl;
+
+    cout<<"#P\t"<<"AT\t"<<"BT\t"<<"ST\t"<<"CT\t"<<"TAT\t"<<"WT\t"<<"RT\t"<<"\n"<<endl;
+
+    for(int i = 0; i < N; i++) {
+        cout<<p[i].pid<<"\t"<<p[i].arrival_time<<"\t"<<p[i].burst_time<<"\t"<<p[i].start_time<<"\t"<<p[i].completion_time<<"\t"<<p[i].turnaround_time<<"\t"<<p[i].waiting_time<<"\t"<<p[i].response_time<<"\t"<<"\N"<<endl;
     }
-    printf("\nAverage Turnaround Time = %f\n", avgTT/N);
-    printf("\nAverage Waiting Time = %f\n", avgWT/N);
+    cout<<"Average Turnaround Time = "<<avg_turnaround_time<<endl;
+    cout<<"Average Waiting Time = "<<avg_waiting_time<<endl;
+    cout<<"Average Response Time = "<<avg_response_time<<endl;
+    cout<<"CPU Utilization = "<<cpu_utilisation<<"%"<<endl;
+    cout<<"Throughput = "<<throughput<<" process/unit time"<<endl;
 
-    return 0;
+
 }
+
+/*
+
+AT - Arrival Time of the process
+BT - Burst time of the process
+ST - Start time of the process
+CT - Completion time of the process
+TAT - Turnaround time of the process
+WT - Waiting time of the process
+RT - Response time of the process
+
+Formulas used:
+
+TAT = CT - AT
+WT = TAT - BT
+RT = ST - AT
+
+*/
