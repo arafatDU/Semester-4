@@ -20,103 +20,11 @@ struct processDetails
    int waitingTime;
 };
 
-void display(vector<process> &processes)
-{
-   for (int i = 0; i < processes.size(); i++)
-   {
-      cout << processes[i].id << " " << processes[i].burstTime << " " << processes[i].priority << " " << processes[i].arrivalTime << "\n";
-   }
-}
+void RR(vector<process> &processes);
+void display(vector<process> &processes);
+int getNextArrivalTime(vector<process> &processes, int currentTime);
 
-int nextArrivalTime(vector<process> &processes, int currentTime)
-{
-   int next = -1;
 
-   for (int i = 0; i < processes.size(); i++)
-   {
-      if (processes[i].arrivalTime > next)
-         next = processes[i].arrivalTime;
-   }
-
-   for (int i = 0; i < processes.size(); i++)
-   {
-      if (processes[i].arrivalTime < next and processes[i].arrivalTime > currentTime)
-         next = processes[i].arrivalTime;
-   }
-
-   return next;
-}
-
-void RR(vector<process> &processes)
-{
-   int complete = 0, currentTime = 0, quantum = 5, nextTime;
-
-   vector<process> ready;
-
-   cout << 0;
-   while (complete < processes.size())
-   {
-      if (ready.size() != 0)
-      {
-         for (int i = 0; i < processes.size(); i++)
-         {
-            if (processes[i].arrivalTime <= currentTime and processes[i].inqueue == false)
-            {
-               ready.push_back(processes[i]);
-               processes[i].inqueue = true;
-            }
-         }
-
-         ready.push_back(ready[0]);
-         ready.erase(ready.begin());
-      }
-      else
-      {
-         for (int i = 0; i < processes.size(); i++)
-         {
-            if (processes[i].arrivalTime <= currentTime and processes[i].inqueue == false)
-            {
-               ready.push_back(processes[i]);
-               processes[i].inqueue = true;
-            }
-         }
-      }
-
-      if (ready.size() == 0)
-      {
-         nextTime = nextArrivalTime(processes, currentTime);
-         cout << "..." << nextTime;
-         currentTime = nextTime;
-      }
-
-      else
-      {
-         cout << "___P" << ready[0].id << "___";
-
-         if (ready[0].remaining_burstTime <= quantum and ready[0].remaining_burstTime > 0)
-         {
-            currentTime += ready[0].remaining_burstTime;
-            ready[0].remaining_burstTime = 0;
-            for (int i = 0; i < processes.size(); i++)
-          {
-            if (ready[0].id == processes[i].id)
-            {
-               processes[i].completionTime = currentTime;
-            }
-          }
-            complete++;
-            ready.erase(ready.begin());
-            cout << currentTime;
-         }
-         else
-         {
-            ready[0].remaining_burstTime -= quantum;
-            currentTime += quantum;
-            cout << currentTime;
-         }
-      }
-   }
-}
 
 int main()
 {
@@ -159,7 +67,100 @@ int main()
    //    cout << processInfo[i].id << " " << processInfo[i].turnaroundTime << " " << processInfo[i].waitingTime << "\n";
    // }
 
-   cout << "AvgTurnAround Time : " << avgTurnaroundTime / processes.size() << " AveWaitingTime: " << avgWaitingTime / processes.size();
+   cout << "AvgTurnAround Time : " << avgTurnaroundTime / processes.size() << " AveWaitingTime: " << avgWaitingTime / processes.size()<<endl;
 
    
+}
+
+
+void display(vector<process> &processes)
+{
+   for (int i = 0; i < processes.size(); i++)
+      cout << processes[i].id << " " << processes[i].burstTime << " " << processes[i].priority << " " << processes[i].arrivalTime << "\n";
+}
+
+int getNextArrivalTime(vector<process> &processes, int currentTime)
+{
+   int next = INT_MAX;
+
+   // for (int i = 0; i < processes.size(); i++)
+   //    if (processes[i].arrivalTime > next)
+   //       next = processes[i].arrivalTime;
+
+   for (int i = 0; i < processes.size(); i++)
+      if (processes[i].arrivalTime < next and processes[i].arrivalTime > currentTime)
+         next = processes[i].arrivalTime;
+
+   return next;
+}
+
+void RR(vector<process> &processes)
+{
+   int complete = 0, currentTime = 0, quantum = 5, nextTime;
+
+   vector<process> ready;
+
+   cout << 0;
+   while (complete < processes.size())
+   {
+      if (ready.size() != 0)
+      {
+         for (int i = 0; i < processes.size(); i++)
+         {
+            if (processes[i].arrivalTime <= currentTime and processes[i].inqueue == false)
+            {
+               ready.push_back(processes[i]);
+               processes[i].inqueue = true;
+            }
+         }
+
+         ready.push_back(ready[0]);
+         ready.erase(ready.begin());
+      }
+      else
+      {
+         for (int i = 0; i < processes.size(); i++)
+         {
+            if (processes[i].arrivalTime <= currentTime and processes[i].inqueue == false)
+            {
+               ready.push_back(processes[i]);
+               processes[i].inqueue = true;
+            }
+         }
+      }
+
+      if (ready.size() == 0)
+      {
+         nextTime = getNextArrivalTime(processes, currentTime);
+         cout << "..." << nextTime;
+         currentTime = nextTime;
+      }
+
+      else
+      {
+         cout << "___P" << ready[0].id << "___";
+
+         if (ready[0].remaining_burstTime <= quantum and ready[0].remaining_burstTime > 0)
+         {
+            currentTime += ready[0].remaining_burstTime;
+            ready[0].remaining_burstTime = 0;
+            for (int i = 0; i < processes.size(); i++)
+          {
+            if (ready[0].id == processes[i].id)
+            {
+               processes[i].completionTime = currentTime;
+            }
+          }
+            complete++;
+            ready.erase(ready.begin());
+            cout << currentTime;
+         }
+         else
+         {
+            ready[0].remaining_burstTime -= quantum;
+            currentTime += quantum;
+            cout << currentTime;
+         }
+      }
+   }
 }
