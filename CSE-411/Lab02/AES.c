@@ -344,8 +344,7 @@ void inverseByteSubShiftRow(unsigned char * plainText)
 void AESEncryption(unsigned char * plainText, unsigned char * expandedKey, unsigned char * cipher)
 {
     unsigned char * state = malloc(16);
-    //unsigned char * expandedKey = malloc(176);
-    //expandedKey = keyExpansion(Key);
+
     //key addition for the first round
     for (int i = 0; i < 16; ++i)
     {
@@ -455,7 +454,11 @@ int main() {
     AESDecryption(ciphertext, expandedKey, decryptedText);
 
     // Print decrypted text
-    printf("Decrypted Text: %s\n", decryptedText);
+    printf("Decrypted Text: ");
+    for (int i = 0; i < 16; i++) {
+        printf("%c", decryptedText[i]);
+    }
+    printf("\n");
 
     // Clean up
     free(expandedKey);

@@ -1,0 +1,1 @@
+select distinct customer_name from borrower, loan where borrower.loan_number = loan.loan_number and branch_name = 'Perryridge'  and (branch_name, customer_name ) in (select branch_name, customer_name from depositor, account where depositor.account_number = account.account_number );
