@@ -160,12 +160,5 @@ int main()
 
    cout << endl;
 
-//    display(processes);
-
-//        for (int i = 0; i < processInfo.size(); i++)
-//    {
-//       cout << processInfo[i].id << " " << processInfo[i].turnaroundTime << " " << processInfo[i].waitingTime << "\n";
-//    }
-
-   cout << "AvgTurnAround Time : " << avgTurnaroundTime/processes.size() << " AveWaitingTime: " << avgWaitingTime/processes.size();
+   cout <<endl<< "AvgTurnAround Time : " << avgTurnaroundTime/processes.size() << " AveWaitingTime: " << avgWaitingTime/processes.size()<<endl;
 }

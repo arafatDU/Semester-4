@@ -159,7 +159,7 @@ int main()
    //    cout << processInfo[i].id << " " << processInfo[i].turnaroundTime << " " << processInfo[i].waitingTime << "\n";
    // }
 
-   cout << "AvgTurnAround Time : " << avgTurnaroundTime/processes.size() << " AveWaitingTime: " << avgWaitingTime/processes.size();
+   cout << "AvgTurnAround Time : " << avgTurnaroundTime/processes.size() << " AveWaitingTime: " << avgWaitingTime/processes.size() <<endl;
 
        
 }
