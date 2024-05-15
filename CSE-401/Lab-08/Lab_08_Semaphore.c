@@ -19,7 +19,7 @@ void *producer_func(void *param)
         buffer[in]=item;
         in = (in+1)%SIZE;
         produced++;
-        printf("Produced %d\n",item);
+        printf("Producer produced item %d\n",item);
         sem_post(&mutex);
         sem_post(&full);
         sleep(1);
@@ -33,7 +33,7 @@ void *consumer_func(void *param)
         sem_wait(&mutex);
         sem_wait(&full);
         int item = buffer[out];
-        printf("Consumed %d\n",item);
+        printf("Consumer consumed item %d\n",item);
         out = (out+1)%SIZE;
         consumed++;
         sem_post(&mutex);
@@ -41,6 +41,10 @@ void *consumer_func(void *param)
         sleep(2);
     }
 }
+
+
+
+
 int main()
 {
     pthread_t producer, consumer;
@@ -50,12 +54,10 @@ int main()
 
 
     pthread_create(&producer, NULL, producer_func, NULL);
-
     pthread_create(&consumer, NULL, consumer_func, NULL);
 
 
     pthread_join(producer, NULL);
-    
     pthread_join(consumer, NULL);
 
     sem_destroy(&mutex);
