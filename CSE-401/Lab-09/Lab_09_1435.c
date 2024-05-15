@@ -43,8 +43,6 @@ void *reader(void *arg) {
         printf("Reader %d is reading\n", id);
         
         sleep(1);
-
-       // sem_wait(&semaphore);
         
         count--;
         
@@ -63,7 +61,6 @@ void *reader(void *arg) {
 int main()
 {
    pthread_t readers[READERS_NUMBER] , writers[WRITERS_NUMBER] ;
-   
    int reader_ids[READERS_NUMBER] , writer_ids[WRITERS_NUMBER];
    
    sem_init(&semaphore,0,1);

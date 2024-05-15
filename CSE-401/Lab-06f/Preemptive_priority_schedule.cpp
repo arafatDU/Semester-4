@@ -62,7 +62,6 @@ int nextArrivalTime(vector<process> &processes, int currentTime)
 void Priority(vector<process> &processes)
 {
    int complete = 0, currentTime = 0, nextTime;
-
    vector<process> ready;
 
    cout << 0;
