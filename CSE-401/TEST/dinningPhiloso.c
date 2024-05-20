@@ -1,6 +1,8 @@
 #include <pthread.h>
 #include <semaphore.h>
+#include<stdlib.h>
 #include <stdio.h>
+#include <unistd.h>
 
 #define N 5
 #define THINKING 2
